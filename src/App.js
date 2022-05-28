@@ -1,23 +1,27 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect } from "react";
 
+import { useRequest } from "./ahook";
+
+function fetchUser(args) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve(args);
+    }, 2000);
+  });
+}
 function App() {
+  const { data, loading, refresh } = useRequest(fetchUser, {
+    defaultParams: ["mickey"],
+  });
+
+  if (loading) {
+    return <div>loading</div>;
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <p>{data}</p>
+      <button onClick={refresh}>重新刷新</button>
     </div>
   );
 }
