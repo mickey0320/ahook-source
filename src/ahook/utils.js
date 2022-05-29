@@ -10,3 +10,7 @@ export function sameDeps(deps1, deps2) {
 
   return true;
 }
+
+export function isDocumentVisible() {
+  return document.visibilityState !== "hidden";
+}

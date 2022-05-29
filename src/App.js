@@ -2,11 +2,12 @@ import React, { useEffect, useState } from "react";
 
 import { useRequest } from "./ahook";
 
+let counter = 0;
 function fetchUser(args) {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
-      resolve(args);
-    }, 3000);
+      resolve(args + counter++);
+    }, 1000);
   });
 }
 function App() {
@@ -16,7 +17,8 @@ function App() {
   // function refresh() {}
   const { data, loading, refresh } = useRequest(fetchUser, {
     defaultParams: ["mickey"],
-    loadingDelay: 2000,
+    pollingInterval: 1000,
+    pollingWhenHidden: false,
   });
 
   if (loading) {
