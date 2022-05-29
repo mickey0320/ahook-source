@@ -16,9 +16,7 @@ function App() {
   // let data = "";
   // function refresh() {}
   const { data, loading, refresh } = useRequest(fetchUser, {
-    defaultParams: ["mickey"],
-    pollingInterval: 1000,
-    pollingWhenHidden: false,
+    refreshOnWindowFocus: true,
   });
 
   if (loading) {
