@@ -19,7 +19,7 @@ class Fetch {
   async runAsync(...params) {
     const { ...state } = this.runPluginHandler("onBefore", params);
     this.setState({ loading: true, error: undefined, params, ...state });
-    this.options?.onBefore(params);
+    this.options.onBefore?.(params);
     try {
       let { servicePromise } = this.runPluginHandler(
         "onRequest",
@@ -35,9 +35,9 @@ class Fetch {
         data,
         error: undefined,
       });
-      this.options?.onSuccess(data, params);
+      this.options.onSuccess?.(data, params);
       this.runPluginHandler("onSuccess", data, params);
-      this.options?.onFinally(params, data, undefined);
+      this.options.onFinally?.(params, data, undefined);
       this.runPluginHandler("onFinally", params, data);
     } catch (error) {
       this.setState({
@@ -45,16 +45,16 @@ class Fetch {
         data: undefined,
         error,
       });
-      this.options?.onError(error, params);
+      this.options.onError?.(error, params);
       this.runPluginHandler("onError", error, params);
-      this.options?.onFinally(params, undefined, error);
+      this.options.onFinally?.(params, undefined, error);
       this.runPluginHandler("onFinally", params, undefined, error);
       throw error;
     }
   }
   async run(...params) {
     this.runAsync(...params).then((error) => {
-      console.log(error);
+      //   console.log(error);
     });
   }
   refresh() {
@@ -66,10 +66,9 @@ class Fetch {
   runPluginHandler = (hookName, ...args) => {
     const res = this.pluginImpls
       .map((pluginImpl) => {
-        pluginImpl[hookName]?.(...args);
+        return pluginImpl[hookName]?.(...args);
       })
       .filter(Boolean);
-
     return Object.assign({}, ...res);
   };
 }

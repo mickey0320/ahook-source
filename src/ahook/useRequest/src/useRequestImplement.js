@@ -4,7 +4,7 @@ import useUpdate from "../../useUpdate";
 import useMount from "../../useMount";
 import useCreation from "../../useCreation";
 
-function useRequestImplement(service, options = {}, plugins = []) {
+function useRequestImplement(service, options = {}, plugins) {
   const { manual } = options;
   const fetchInstaneOptions = options;
   const serviceRef = useLatest(service);
